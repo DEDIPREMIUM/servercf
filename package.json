@@ -4,13 +4,14 @@
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250803.0",
     "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@types/node": "^22.10.2",
+    "@types/node": "^24.1.0",
     "javascript-obfuscator": "^4.1.1"
   }
 }

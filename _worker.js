@@ -757,7 +757,7 @@ function parseSselvHeader(buffer) {
     default:
       return {
         hasError: true,
-        message: `invild  addressType is ${addressType}`,
+        message: `invalid addressType is ${addressType}`,
       };
   }
   if (!addressValue) {
@@ -886,7 +886,13 @@ function parseNajortHeader(buffer) {
 //   console.log(`Decrypted Header: ${decrypted.toString("hex")}`);
 // }
 
-async function remoteSocketToWS(remoteSocket, webSocket, responseHeader, retry, log) {
+async function remoteSocketToWS(
+  remoteSocket,
+  webSocket,
+  responseHeader,
+  retry,
+  log
+) {
   let header = responseHeader;
   let hasIncomingData = false;
   await remoteSocket.readable
@@ -1081,6 +1087,9 @@ let baseHTML = `
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Proxy List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       /* For Webkit-based browsers (Chrome, Safari and Opera) */
@@ -1093,19 +1102,21 @@ let baseHTML = `
           -ms-overflow-style: none;  /* IE and Edge */
           scrollbar-width: none;  /* Firefox */
       }
+      body {
+        font-family: 'Inter', sans-serif;
+      }
     </style>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     <script>
       tailwind.config = {
         darkMode: 'selector',
       }
     </script>
   </head>
-  <body class="bg-white dark:bg-neutral-800 bg-fixed">
+  <body class="bg-gray-100 dark:bg-gray-900 bg-fixed">
     <!-- Notification -->
     <div
       id="notification-badge"
-      class="fixed z-50 opacity-0 transition-opacity ease-in-out duration-300 mt-9 mr-6 right-0 p-3 max-w-sm bg-white rounded-xl border border-2 border-neutral-800 flex items-center gap-x-4"
+      class="fixed z-50 opacity-0 transition-opacity ease-in-out duration-300 mt-9 mr-6 right-0 p-3 max-w-sm bg-white rounded-xl border border-2 border-gray-800 flex items-center gap-x-4"
     >
       <div class="shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#171717" class="size-6">
@@ -1121,13 +1132,13 @@ let baseHTML = `
       </div>
       <div>
         <div class="text-md font-bold text-blue-500">Berhasil!</div>
-        <p class="text-sm text-neutral-800">Akun berhasil disalin</p>
+        <p class="text-sm text-gray-800">Akun berhasil disalin</p>
       </div>
     </div>
     <!-- Select Country -->
     <div>
       <div
-        class="h-full fixed top-0 w-14 bg-white dark:bg-neutral-800 border-r-2 border-neutral-800 dark:border-white z-20 overflow-y-scroll scrollbar-hide"
+        class="h-full fixed top-0 w-14 bg-white dark:bg-gray-800 border-r-2 border-gray-800 dark:border-white z-20 overflow-y-scroll scrollbar-hide"
       >
         <div class="text-2xl flex flex-col items-center h-full gap-2">
           PLACEHOLDER_BENDERA_NEGARA
@@ -1136,8 +1147,8 @@ let baseHTML = `
     </div>
     <!-- Main -->
     <div id="container-header">
-      <div id="container-info" class="bg-amber-400 border-2 border-neutral-800 text-right px-5">
-        <div class="flex justify-end gap-3 text-sm">
+      <div id="container-info" class="bg-blue-500 border-b-2 border-gray-800 text-right px-5">
+        <div class="flex justify-end gap-3 text-sm text-white">
           <p id="container-info-ip">IP: 127.0.0.1</p>
           <p id="container-info-country">Country: Indonesia</p>
           <p id="container-info-isp">ISP: Localhost</p>
@@ -1147,9 +1158,9 @@ let baseHTML = `
     <div class="container">
       <div
         id="container-title"
-        class="sticky bg-white dark:bg-neutral-800 border-b-2 border-neutral-800 dark:border-white z-10 py-6 w-screen"
+        class="sticky bg-white dark:bg-gray-900 border-b-2 border-gray-800 dark:border-white z-10 py-6 w-screen"
       >
-        <h1 class="text-xl text-center text-neutral-800 dark:text-white">
+        <h1 class="text-xl text-center text-gray-800 dark:text-white">
           PLACEHOLDER_JUDUL
         </h1>
       </div>
@@ -1168,7 +1179,7 @@ let baseHTML = `
     <div id="container-window" class="hidden">
       <!-- Windows -->
       <!-- Informations -->
-      <div class="fixed z-20 top-0 w-full h-full bg-white dark:bg-neutral-800">
+      <div class="fixed z-20 top-0 w-full h-full bg-white dark:bg-gray-800">
         <p id="container-window-info" class="text-center w-full h-full top-1/4 absolute dark:text-white"></p>
       </div>
       <!-- Output Format -->
@@ -1178,19 +1189,19 @@ let baseHTML = `
             <div class="flex w-full h-full gap-1 justify-between">
               <button
                 onclick="copyToClipboardAsTarget('clash')"
-                class="basis-1/2 p-2 rounded-full bg-amber-400 flex justify-center items-center"
+                class="basis-1/2 p-2 rounded-full bg-blue-500 text-white flex justify-center items-center hover:bg-blue-600"
               >
                 Clash
               </button>
               <button
                 onclick="copyToClipboardAsTarget('sfa')"
-                class="basis-1/2 p-2 rounded-full bg-amber-400 flex justify-center items-center"
+                class="basis-1/2 p-2 rounded-full bg-blue-500 text-white flex justify-center items-center hover:bg-blue-600"
               >
                 SFA
               </button>
               <button
                 onclick="copyToClipboardAsTarget('bfr')"
-                class="basis-1/2 p-2 rounded-full bg-amber-400 flex justify-center items-center"
+                class="basis-1/2 p-2 rounded-full bg-blue-500 text-white flex justify-center items-center hover:bg-blue-600"
               >
                 BFR
               </button>
@@ -1200,13 +1211,13 @@ let baseHTML = `
             <div class="flex w-full h-full gap-1 justify-between">
               <button
                 onclick="copyToClipboardAsTarget('v2ray')"
-                class="basis-1/2 p-2 rounded-full bg-amber-400 flex justify-center items-center"
+                class="basis-1/2 p-2 rounded-full bg-blue-500 text-white flex justify-center items-center hover:bg-blue-600"
               >
                 V2Ray/Xray
               </button>
               <button
                 onclick="copyToClipboardAsRaw()"
-                class="basis-1/2 p-2 rounded-full bg-amber-400 flex justify-center items-center"
+                class="basis-1/2 p-2 rounded-full bg-blue-500 text-white flex justify-center items-center hover:bg-blue-600"
               >
                 Raw
               </button>
@@ -1237,7 +1248,7 @@ let baseHTML = `
               />
               <button
                 onclick="registerDomain()"
-                class="p-2 rounded-full bg-amber-400 flex justify-center items-center"
+                class="p-2 rounded-full bg-blue-500 text-white flex justify-center items-center hover:bg-blue-600"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                   <path
@@ -1262,7 +1273,7 @@ let baseHTML = `
     <footer>
       <div class="fixed bottom-3 right-3 flex flex-col gap-1 z-50">
         <a href="${DONATE_LINK}" target="_blank">
-          <button class="bg-green-500 rounded-full border-2 border-neutral-800 p-1 block">
+          <button class="bg-green-500 rounded-full border-2 border-gray-800 p-1 block">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
               <path
                 d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 0 1-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004ZM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 0 1-.921.42Z"
@@ -1275,7 +1286,7 @@ let baseHTML = `
             </svg>
           </button>
         </a>
-        <button onclick="toggleWildcardsWindow()" class="bg-indigo-400 rounded-full border-2 border-neutral-800 p-1 PLACEHOLDER_API_READY">
+        <button onclick="toggleWildcardsWindow()" class="bg-indigo-400 rounded-full border-2 border-gray-800 p-1 PLACEHOLDER_API_READY">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -1291,7 +1302,7 @@ let baseHTML = `
             />
           </svg>
         </button>
-        <button onclick="toggleDarkMode()" class="bg-amber-400 rounded-full border-2 border-neutral-800 p-1">
+        <button onclick="toggleDarkMode()" class="bg-blue-500 rounded-full border-2 border-gray-800 p-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -1342,7 +1353,7 @@ let baseHTML = `
             const respJson = await res.json();
             for (const domain of respJson) {
               const domainElement = document.createElement("p");
-              domainElement.classList.add("w-full", "bg-amber-400", "rounded-md");
+              domainElement.classList.add("w-full", "bg-blue-500", "text-white", "rounded-md", "p-2");
               domainElement.innerText = domain;
               domainListContainer.appendChild(domainElement);
             }
@@ -1597,14 +1608,14 @@ class Document {
       const proxyData = this.proxies[i];
 
       // Assign proxies
-      proxyGroupElement += `<div class="lozad scale-95 mb-2 bg-white dark:bg-neutral-800 transition-transform duration-200 rounded-lg p-4 w-60 border-2 border-neutral-800">`;
-      proxyGroupElement += `  <div id="countryFlag" class="absolute -translate-y-9 -translate-x-2 border-2 border-neutral-800 rounded-full overflow-hidden"><img width="32" src="https://hatscripts.github.io/circle-flags/flags/${proxyData.country.toLowerCase()}.svg" /></div>`;
+      proxyGroupElement += `<div class="lozad scale-95 mb-2 bg-white dark:bg-gray-800 transition-transform duration-200 rounded-lg p-4 w-60 border-2 border-gray-800 shadow-lg">`;
+      proxyGroupElement += `  <div id="countryFlag" class="absolute -translate-y-9 -translate-x-2 border-2 border-gray-800 rounded-full overflow-hidden"><img width="32" src="https://hatscripts.github.io/circle-flags/flags/${proxyData.country.toLowerCase()}.svg" /></div>`;
       proxyGroupElement += `  <div>`;
       proxyGroupElement += `    <div id="ping-${i}" class="animate-pulse text-xs font-semibold dark:text-white">Idle ${proxyData.proxyIP}:${proxyData.proxyPort}</div>`;
       proxyGroupElement += `  </div>`;
-      proxyGroupElement += `  <div class="rounded py-1 px-2 bg-amber-400 dark:bg-neutral-800 dark:border-2 dark:border-amber-400">`;
-      proxyGroupElement += `    <h5 class="font-bold text-md text-neutral-900 dark:text-white mb-1 overflow-x-scroll scrollbar-hide text-nowrap">${proxyData.org}</h5>`;
-      proxyGroupElement += `    <div class="text-neutral-900 dark:text-white text-sm">`;
+      proxyGroupElement += `  <div class="rounded py-1 px-2 bg-blue-500">`;
+      proxyGroupElement += `    <h5 class="font-bold text-md text-white mb-1 overflow-x-scroll scrollbar-hide text-nowrap">${proxyData.org}</h5>`;
+      proxyGroupElement += `    <div class="text-white text-sm">`;
       proxyGroupElement += `      <p>IP: ${proxyData.proxyIP}</p>`;
       proxyGroupElement += `      <p>Port: ${proxyData.proxyPort}</p>`;
       proxyGroupElement += `      <div id="container-region-check-${i}">`;
@@ -1628,7 +1639,7 @@ class Document {
           proxyGroupElement += `<div class="flex gap-2 justify-around w-full">`;
         }
 
-        proxyGroupElement += `<button class="bg-blue-500 dark:bg-neutral-800 dark:border-2 dark:border-blue-500 rounded p-1 w-full text-white" onclick="copyToClipboard('${proxy}')">${indexName[x]}</button>`;
+        proxyGroupElement += `<button class="bg-blue-500 hover:bg-blue-600 dark:bg-gray-800 dark:border-2 dark:border-blue-500 rounded p-1 w-full text-white" onclick="copyToClipboard('${proxy}')">${indexName[x]}</button>`;
 
         if (x % 2 == 1) {
           proxyGroupElement += `</div>`;
@@ -1662,7 +1673,7 @@ class Document {
   addPageButton(text, link, isDisabled) {
     const pageButton = `<li><button ${
       isDisabled ? "disabled" : ""
-    } class="px-3 py-1 bg-amber-400 border-2 border-neutral-800 rounded" onclick=navigateTo('${link}')>${text}</button></li>`;
+    } class="px-3 py-1 bg-blue-500 text-white border-2 border-gray-800 rounded hover:bg-blue-600" onclick=navigateTo('${link}')>${text}</button></li>`;
 
     this.html = this.html.replaceAll("PLACEHOLDER_PAGE_BUTTON", `${pageButton}\nPLACEHOLDER_PAGE_BUTTON`);
   }
@@ -1673,6 +1684,6 @@ class Document {
 
     this.html = this.html.replaceAll("PLACEHOLDER_API_READY", isApiReady ? "block" : "hidden");
 
-    return this.html.replaceAll(/PLACEHOLDER_\w+/gim, "");
+    return this.html.replaceAll(/PLACEHOLDER_\\w+/gim, "");
   }
 }

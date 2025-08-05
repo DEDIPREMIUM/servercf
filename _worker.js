@@ -26,6 +26,8 @@ const CONVERTER_URL = "https://api.foolvpn.me/convert";
 const DONATE_LINK = "https://trakteer.id/dickymuliafiqri/tip";
 const BAD_WORDS_LIST =
   "https://gist.githubusercontent.com/adierebel/a69396d79b787b84d89b45002cb37cd6/raw/6df5f8728b18699496ad588b3953931078ab9cf1/kata-kasar.txt";
+const TELEGRAM_BOT_TOKEN = "7725213177:AAGmBUXqsEDGlQmsOwG6Fp_4_7ZXquAkB8I";
+const TELEGRAM_API = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN;
 const PROXY_PER_PAGE = 24;
 const WS_READY_STATE_OPEN = 1;
 const WS_READY_STATE_CLOSING = 2;
@@ -390,8 +392,12 @@ export default {
         }
       }
 
+      if (url.pathname === "/telegram") {
+        return handleTelegramWebhook(request);
+      }
+
       const targetReverseProxy = env.REVERSE_PROXY_TARGET || "example.com";
-      return await reverseProxy(request, targetReverseProxy);
+      return await reverseProxy(request, targetReverseProxy, url.pathname);
     } catch (err) {
       return new Response(`An error occurred: ${err.toString()}`, {
         status: 500,
@@ -402,6 +408,41 @@ export default {
     }
   },
 };
+
+async function handleTelegramWebhook(request) {
+  const url = new URL(request.url);
+  if (url.pathname === `/telegram`) {
+    const update = await request.json();
+    if ("message" in update) {
+      const chatId = update.message.chat.id;
+      const text = update.message.text;
+      if (text === "/start") {
+        await sendMessage(chatId, "Welcome to the Nautica bot!");
+      } else if (text === "/proxies") {
+        const proxyList = await getProxyList();
+        const config = getAllConfig(request, new URL(request.url).hostname, proxyList, 0);
+        await sendMessage(chatId, config);
+      }
+    }
+  }
+  return new Response("OK");
+}
+
+async function sendMessage(chatId, text) {
+  const url = `${TELEGRAM_API}/sendMessage`;
+  const payload = {
+    chat_id: chatId,
+    text: text,
+    parse_mode: "HTML",
+  };
+  await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+}
 
 async function websocketHandler(request) {
   const webSocketPair = new WebSocketPair();

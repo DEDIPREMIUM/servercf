@@ -1,4 +1,5 @@
 import { connect } from "cloudflare:sockets";
+import { handleTelegramWebhook } from "./telegram_bot.js";
 // import { createHash, createDecipheriv } from "node:crypto";
 // import { Buffer } from "node:buffer";
 
@@ -481,7 +482,7 @@ async function websocketHandler(request) {
           const protocol = await protocolSniffer(chunk);
           let protocolHeader;
 
-          if (protocol === reverse("najorT")) {
+          if (protocol === reverse("najort")) {
             protocolHeader = parseNajortHeader(chunk);
           } else if (protocol === reverse("SSELV")) {
             protocolHeader = parseSselvHeader(chunk);
